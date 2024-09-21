@@ -1,0 +1,25 @@
+<div class="table-container card">
+    @if (applications && applications.length > 0) {
+    <p-table [value]="applications">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Active</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-application>
+            <tr>
+                <td>{{application.title}}</td>
+                <td>{{application.description}}</td>
+                <td>
+                    <p-checkbox [(ngModel)]="application.isActive" [binary]="true" inputId="binary" readonly="true" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+    }
+    @else {
+    <p>loading..</p>
+    }
+</div>
