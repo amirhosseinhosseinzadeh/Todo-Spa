@@ -1,6 +1,5 @@
 using System.Reflection;
 using MediatR;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Todo.Api.Dtos;
@@ -50,4 +49,31 @@ app.MapPost("/api/TodoApplication/AddTodoApplication",
 {
     return await mediator.Send(new CreateApplicationRequest(applicationDto));
 });
+app.MapGet("/dockertest", () =>
+{
+    return new
+    {
+        result = "application is ready"
+    };
+});
+var production_env = Environment.GetEnvironmentVariable("PROD_TYPE") ?? "";
+if (!string.IsNullOrWhiteSpace(production_env))
+{
+    switch (production_env)
+    {
+        case "docker":
+            ConfigDockerUrls();
+            break;
+    }
+}
 app.Run();
+
+void ConfigDockerUrls()
+{
+    var env_ports = builder.Configuration.GetSection("Environments:docker:port_numbers").Get<List<int>>()
+        ?? throw new Exception();
+    env_ports.ForEach(x =>
+        {
+            app.Urls.Add($"http://*:{x}");
+        });
+}
