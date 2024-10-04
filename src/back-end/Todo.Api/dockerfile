@@ -1,10 +1,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app
 
-COPY ./src/back-end/Todo.Api/Todo.Api.csproj ./
+COPY ./Todo.Api.csproj ./
 RUN dotnet restore ./
 
-COPY ./src/back-end/Todo.Api/. ./
+COPY ./. ./
 RUN dotnet publish -o ./pub/ -c Release
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine AS production

@@ -1,7 +1,7 @@
 FROM node:18-alpine3.20 AS build
 WORKDIR /app
-COPY ./src/front-end/Todoapp/. ./
-RUN npm install -S 
+COPY ./. ./
+RUN npm install -S
 RUN npm run build --prod
 
 FROM nginx:latest AS production
