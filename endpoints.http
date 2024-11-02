@@ -1,0 +1,22 @@
+POST http://localhost:5000/api/TodoApplication/Getlist HTTP/1.1
+Content-Type: application/json
+
+{
+    "size" : 10,
+    "skip" : 0
+}
+
+GET http://localhost:5000/dockertest HTTP/1.1
+
+GET http://localhost:5000/swagger/index.html HTTP/1.1
+
+POST http://localhost:5000/Update/database HTTP/1.1
+
+POST http://localhost:5000/api/TodoApplication/AddTodoApplication HTTP/1.1
+Content-Type: application/json
+
+{
+    "Description": "test2",
+    "title": "desc_test2",
+    "isActive": true
+}

@@ -1,6 +1,6 @@
 export class ToDoApplication {
-    anounceDate?: string
-    description?: string
+    anounceDate?: Date
+    description?: Date
     id?: number
     isActive?: boolean
     title?: string

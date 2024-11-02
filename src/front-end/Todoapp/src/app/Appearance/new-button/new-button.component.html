@@ -1,0 +1,61 @@
+<p-dialog
+    header="Edit Profile"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '25rem' }"
+>
+    <span class="p-text-secondary block mb-5">Update your information.</span>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="Title" class="font-semibold w-6rem">Title</label>
+        <input
+            [(ngModel)]="todo.title"
+            pInputText
+            id="Title"
+            class="flex-auto"
+            autocomplete="off"
+        />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="Description" class="font-semibold w-6rem"
+            >Description</label
+        >
+        <input
+            [(ngModel)]="todo.description"
+            pInputText
+            id="Description"
+            class="flex-auto"
+            autocomplete="off"
+        />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="IsActive" class="font-semibold w-6rem">IsActive</label>
+        <p-checkbox [(ngModel)]="todo.isActive" [binary]="true" inputId="binary" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="email" class="font-semibold w-6rem">Date</label>
+        <p-calendar
+            [(ngModel)]="todo.anounceDate"
+            [showIcon]="true"
+            inputId="buttondisplay"
+            [showOnFocus]="false"
+            dateFormat="yy/MM/dd"
+            [showTime]="true"
+            appendTo="body"
+        />
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button
+            label="Cancel"
+            severity="secondary"
+            (onClick)="visible = false"
+        />
+        <p-button label="Save" (onClick)="visible = false" />
+    </div>
+</p-dialog>
+
+<p-button
+    icon="pi pi-plus"
+    size="large"
+    [rounded]="true"
+    (onClick)="loadDialog()"
+/>

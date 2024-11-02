@@ -4,7 +4,7 @@ using Todo.Api.Entities;
 
 namespace Todo.Api.Services;
 
-public interface IToDoService 
+public interface IToDoService
 {
     Task<ApplicationDto> Create(ApplicationDto applicationDto);
 

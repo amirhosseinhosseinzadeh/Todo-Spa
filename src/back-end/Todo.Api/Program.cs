@@ -19,6 +19,7 @@ builder.Services.AddMediatR(cfg =>
 });
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IToDoService, ToDoService>();
+builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 //using var srv = builder.Services.BuildServiceProvider(true);
 builder.Services.AddDbContext<ToDoDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("ToDoDbContext")));
@@ -48,6 +49,10 @@ app.MapPost("/api/TodoApplication/AddTodoApplication",
     async ([FromBody] ApplicationDto applicationDto, [FromServices] IMediator mediator) =>
 {
     return await mediator.Send(new CreateApplicationRequest(applicationDto));
+});
+app.MapPost("/Update/database", async ([FromServices] IMediator mediator) =>
+{
+    await mediator.Send(new UpdateDatabaseRequest());
 });
 app.MapGet("/dockertest", () =>
 {

@@ -4,6 +4,6 @@ COPY ./. ./
 RUN npm install -S
 RUN npm run build --prod
 
-FROM nginx:latest AS production
+FROM nginx:alpine3.20 AS production
 COPY --from=build /app/dist/todoapp/browser/. /usr/share/nginx/html/
 EXPOSE 80

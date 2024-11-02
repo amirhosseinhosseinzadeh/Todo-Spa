@@ -3,5 +3,6 @@ import { ApiQuery } from "../models/ApiQuery";
 import { ToDoApplication } from "../models/todoApplication";
 
 export interface ITodoApplicationService {
-    GetApplications(query: ApiQuery): Observable<ToDoApplication[]>;
+    getApplications(query: ApiQuery): Observable<ToDoApplication[]>;
+    addApplication(application:ToDoApplication): Observable<ToDoApplication>;
 }

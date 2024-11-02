@@ -9,7 +9,14 @@ RUN dotnet publish -o ./pub/ -c Release
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine AS production
 WORKDIR /etc/Todo.Api/
+
+RUN apk add --no-cache icu-libs
+RUN apk add libgdiplus --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
+RUN apk add libc-dev --no-cache
+
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 ENV PROD_TYPE=docker
+
 COPY --from=build /app/pub/. ./
 EXPOSE 60917
 ENTRYPOINT ["dotnet","./Todo.Api.dll"]
