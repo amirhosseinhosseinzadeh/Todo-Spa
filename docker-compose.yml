@@ -1,7 +1,8 @@
 version: "3.9"
 services:
   backend:
-    image: todo-back:1.0
+    container_name: todo_spa_backend_1_0
+    image: todo-back:1.0.5
     ports:
       - 5000:60917
     build: "./src/back-end/Todo.Api/"
@@ -11,7 +12,7 @@ services:
     depends_on:
       - db
   frontend:
-    image: todo-front:1.0
+    image: todo-front:1.0.1
     build: "./src/front-end/Todoapp/"
     networks:
       todo_net:
@@ -19,6 +20,7 @@ services:
     ports:
       - 3000:80
   db:
+    container_name: todo_db
     image: "mcr.microsoft.com/mssql/server:2017-latest-ubuntu"
     ports: 
       - 1445:1433
@@ -29,7 +31,6 @@ services:
     networks:
       todo_net:
         ipv4_address: "172.29.0.69"
-      
 networks:
   todo_net:
     ipam:
