@@ -1,9 +1,9 @@
+using Todo.Api.Entities.Base;
+
 namespace Todo.Api.Entities;
 
-public class Application
+public class Application : BaseSoftDeleteEntity
 {
-    public int Id { get; set; }
-
     public string Description { get; set; }
 
     public DateTime AnounceDate { get; set; }

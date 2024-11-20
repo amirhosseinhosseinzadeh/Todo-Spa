@@ -36,7 +36,7 @@ export class NewButtonComponent {
     addTodoApplication() {
         let todoAdd = this.todoService.addApplication(this.todo)
             .subscribe(x => {
-
+                
             })
     }
 }
