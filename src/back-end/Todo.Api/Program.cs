@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Todo.Api.Dtos;
 using Todo.Api.Dtos.Customqueires;
 using Todo.Api.EfContext;
+using Todo.Api.Infrastuctures.ApiActionFilters;
+using Todo.Api.Infrastuctures.Services;
 using Todo.Api.Requests;
 using Todo.Api.Services;
 
@@ -20,6 +22,7 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IToDoService, ToDoService>();
 builder.Services.AddScoped<IDatabaseService, DatabaseService>();
+builder.Services.AddTransient<IActionResultWrapperFactory, ActionRestltWrapperFactory>();
 //using var srv = builder.Services.BuildServiceProvider(true);
 builder.Services.AddDbContext<ToDoDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("ToDoDbContext")));
@@ -44,23 +47,28 @@ app.MapPost("/api/TodoApplication/Getlist",
     async ([FromBody] BaseCustomQuery inputQury, [FromServices] IMediator mediator) =>
 {
     return await mediator.Send(new GetApplicationListRequest(inputQury));
-});
+})
+    .AddEndpointFilter<MinimalApiResultFilter>();
 app.MapPost("/api/TodoApplication/AddTodoApplication",
     async ([FromBody] ApplicationDto applicationDto, [FromServices] IMediator mediator) =>
 {
     return await mediator.Send(new CreateApplicationRequest(applicationDto));
-});
+})
+    .AddEndpointFilter<MinimalApiResultFilter>();
 app.MapPost("/Update/database", async ([FromServices] IMediator mediator) =>
 {
     await mediator.Send(new UpdateDatabaseRequest());
-});
+})
+    .AddEndpointFilter<MinimalApiResultFilter>();
 app.MapGet("/dockertest", () =>
 {
     return new
     {
         result = "application is ready"
     };
-});
+})
+    .AddEndpointFilter<MinimalApiResultFilter>();
+
 var production_env = Environment.GetEnvironmentVariable("PROD_TYPE") ?? "";
 if (!string.IsNullOrWhiteSpace(production_env))
 {

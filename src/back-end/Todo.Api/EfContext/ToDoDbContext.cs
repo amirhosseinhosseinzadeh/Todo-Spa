@@ -18,7 +18,6 @@ public class ToDoDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
         var softDeletableEntities = modelBuilder.Model.GetEntityTypes().Where(x => x.ClrType.IsAssignableTo(typeof(ISoftDelete)));
         foreach (var softDeleteEntity in softDeletableEntities)
         {
