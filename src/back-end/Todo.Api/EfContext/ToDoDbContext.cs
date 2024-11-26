@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 using Todo.Api.Entities;
@@ -26,5 +27,52 @@ public class ToDoDbContext : DbContext
             var lambdaExpression = Expression.Lambda(body, parameter);
             softDeleteEntity.SetQueryFilter(lambdaExpression);
         }
+    }
+
+    public override EntityEntry<TEntity> Remove<TEntity>(TEntity entity)
+    {
+
+        if (!EntityIsSoftDelete(entity, out ISoftDelete softDeleteEntity))
+            return base.Remove(entity);
+
+        softDeleteEntity.IsDeleted = true;
+        return Update((TEntity)softDeleteEntity);
+    }
+
+    public override EntityEntry Remove(object entity)
+    {
+
+        if (!EntityIsSoftDelete(entity, out var softDelete))
+            return base.Remove(entity);
+
+        softDelete.IsDeleted = true;
+        return Update(softDelete);
+    }
+
+    public override void RemoveRange(IEnumerable<object> entities)
+    {
+        foreach (var item in entities)
+        {
+            Remove(item);
+        }
+    }
+
+    public override void RemoveRange(params object[] entities)
+    {
+        foreach (var item in entities)
+        {
+            Remove(item);
+        }
+    }
+
+    private bool EntityIsSoftDelete<TEntity>(TEntity entity, out ISoftDelete softDeleteEntity)
+    {
+        if (entity is ISoftDelete softDelete)
+        {
+            softDeleteEntity = softDelete;
+            return true;
+        }
+        softDeleteEntity = null;
+        return false;
     }
 }

@@ -1,8 +1,5 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Todo.Api.Dtos;
-using Todo.Api.Dtos.Customqueires;
-using Todo.Api.EfContext;
 using Todo.Api.Entities;
 
 namespace Todo.Api.Services;
@@ -14,52 +11,59 @@ public class ToDoService : IToDoService
     private readonly ToDoDbContext _dbContext;
 
     public ToDoService(IMapper mapper,
-                       IServiceProvider srv,
                        ToDoDbContext dbContext
         )
     {
-        //using var dbContext = srv.GetService<ToDoDbContext>();
         _mapper = mapper;
         _dbContext = dbContext;
         _applicationDbSet = dbContext.Set<Application>();
     }
 
-    public async Task<ApplicationDto> Create(ApplicationDto applicationDto)
+    public async Task<ApplicationDto> Create(ApplicationDto applicationDto, CancellationToken cancellationToken = default)
     {
-        System.Console.WriteLine("sss");
         var application = await _applicationDbSet.AddAsync(
-            _mapper.Map<ApplicationDto, Application>(applicationDto)
+            _mapper.Map<ApplicationDto, Application>(applicationDto),
+            cancellationToken
         );
-        await SaveChanges();
+        await SaveChangesAsync(cancellationToken);
         return _mapper.Map<Application, ApplicationDto>(application.Entity);
     }
 
-    public async Task<ApplicationDto> GetById(int applicationId)
+    public async Task<ApplicationDto> GetById(int applicationId, CancellationToken cancellationToken = default)
     {
-        var application = await _applicationDbSet.FindAsync(applicationId)
-            ?? throw new Exception("Item not found");
+        var application = await _applicationDbSet.FindAsync(applicationId, cancellationToken);
+        EntityNotFoundException.ThrowIfNull(application);
         return _mapper.Map<Application, ApplicationDto>(application);
     }
 
-    public async Task<List<ApplicationDto>> GetList(BaseCustomQuery input)
+    public async Task<List<ApplicationDto>> GetList(BaseCustomQuery input, CancellationToken cancellationToken = default)
     {
         var query = _applicationDbSet.AsQueryable();
         var queryResult = await query.Skip(input.Skip)
         .Take(input.Size)
-        .ToListAsync();
+        .ToListAsync(cancellationToken);
         return _mapper.Map<List<Application>, List<ApplicationDto>>(queryResult);
     }
 
-    public async Task ToggleApplicationStatus(int applicationId)
+    public async Task ToggleApplicationStatus(int applicationId, CancellationToken cancellationToken = default)
     {
-        var application = await _applicationDbSet.FindAsync(applicationId)
-            ?? throw new Exception("Item not found");
+        var application = await _applicationDbSet.FindAsync(applicationId);
+        EntityNotFoundException.ThrowIfNull(application);
         application.IsActive = !application.IsActive;
-        await SaveChanges();
+        await SaveChangesAsync(cancellationToken);
     }
 
-    async Task SaveChanges()
+    public async Task DeleteById(int applicationId, CancellationToken cancellationToken = default)
     {
-        await _dbContext.SaveChangesAsync();
+        var todoApplication = await _applicationDbSet.FindAsync(applicationId);
+        EntityNotFoundException.ThrowIfNull(todoApplication);
+        _dbContext.Remove(todoApplication);
+        await SaveChangesAsync(cancellationToken);
+    }
+
+
+    async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken: cancellationToken);
     }
 }

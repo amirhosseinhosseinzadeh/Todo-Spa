@@ -1,18 +1,8 @@
 using System.Reflection;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Todo.Api.Dtos;
-using Todo.Api.Dtos.Customqueires;
-using Todo.Api.EfContext;
-using Todo.Api.Infrastuctures.ApiActionFilters;
-using Todo.Api.Infrastuctures.Services;
-using Todo.Api.Requests;
-using Todo.Api.Services;
+using Todo.Api.Infrastuctures.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg =>
@@ -23,8 +13,7 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IToDoService, ToDoService>();
 builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 builder.Services.AddTransient<IActionResultWrapperFactory, ActionRestltWrapperFactory>();
-//using var srv = builder.Services.BuildServiceProvider(true);
-builder.Services.AddDbContext<ToDoDbContext>(opt =>
+builder.Services.AddDbContext<DbContext,ToDoDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("ToDoDbContext")));
 builder.Services.AddControllers();
 
@@ -43,31 +32,7 @@ app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader());
 app.UseRouting();
-app.MapPost("/api/TodoApplication/Getlist",
-    async ([FromBody] BaseCustomQuery inputQury, [FromServices] IMediator mediator) =>
-{
-    return await mediator.Send(new GetApplicationListRequest(inputQury));
-})
-    .AddEndpointFilter<MinimalApiResultFilter>();
-app.MapPost("/api/TodoApplication/AddTodoApplication",
-    async ([FromBody] ApplicationDto applicationDto, [FromServices] IMediator mediator) =>
-{
-    return await mediator.Send(new CreateApplicationRequest(applicationDto));
-})
-    .AddEndpointFilter<MinimalApiResultFilter>();
-app.MapPost("/Update/database", async ([FromServices] IMediator mediator) =>
-{
-    await mediator.Send(new UpdateDatabaseRequest());
-})
-    .AddEndpointFilter<MinimalApiResultFilter>();
-app.MapGet("/dockertest", () =>
-{
-    return new
-    {
-        result = "application is ready"
-    };
-})
-    .AddEndpointFilter<MinimalApiResultFilter>();
+app.RegisterEndpointsByAgents(Assembly.GetExecutingAssembly());
 
 var production_env = Environment.GetEnvironmentVariable("PROD_TYPE") ?? "";
 if (!string.IsNullOrWhiteSpace(production_env))

@@ -2,5 +2,5 @@ namespace Todo.Api.Services;
 
 public interface IDatabaseService
 {
-    Task UpdateDatabase();
+    Task UpdateDatabase(CancellationToken cancellationToken = default);
 }

@@ -1,7 +1,3 @@
-using MediatR;
-using Todo.Api.Requests;
-using Todo.Api.Services;
-
 namespace Todo.Api.RequestHandlers;
 
 public class ToggleApplicationStatusRequestHandler : IRequestHandler<ToggleApplicationStatusRequest>
@@ -12,6 +8,6 @@ public class ToggleApplicationStatusRequestHandler : IRequestHandler<ToggleAppli
     public ToggleApplicationStatusRequestHandler(IToDoService toDoService)
         => _toDoService = toDoService;
 
-    public async Task Handle(ToggleApplicationStatusRequest request, CancellationToken cancellationToken)
+    public async Task Handle(ToggleApplicationStatusRequest request, CancellationToken cancellationToken = default)
         => await _toDoService.ToggleApplicationStatus(request.ApplicationId);
 }

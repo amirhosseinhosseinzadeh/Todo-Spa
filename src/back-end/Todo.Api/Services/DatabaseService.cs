@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Todo.Api.EfContext;
 
 namespace Todo.Api.Services;
 
@@ -10,6 +9,6 @@ public class DatabaseService : IDatabaseService
     public DatabaseService(ToDoDbContext dbContext)
         => _dbContext = dbContext;
 
-    public async Task UpdateDatabase()
-        => await _dbContext.Database.MigrateAsync();
+    public async Task UpdateDatabase(CancellationToken cancellationToken = default)
+        => await _dbContext.Database.MigrateAsync(cancellationToken);
 }

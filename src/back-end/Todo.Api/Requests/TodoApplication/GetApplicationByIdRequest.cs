@@ -1,6 +1,3 @@
-using MediatR;
-using Todo.Api.Dtos;
-
-namespace Todo.Api.Requests;
+namespace Todo.Api.Requests.TodoApplication;
 
 public record GetApplicationByIdRequest(int ApplicationId) : IRequest<ApplicationDto>;

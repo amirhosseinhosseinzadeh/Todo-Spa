@@ -1,0 +1,10 @@
+global using Todo.Api.Requests.Infrastructure;
+global using Todo.Api.Requests.TodoApplication;
+global using MediatR;
+global using Todo.Api.Dtos;
+global using Todo.Api.Dtos.Customqueires;
+global using Todo.Api.EfContext;
+global using Todo.Api.Infrastuctures.ApiActionFilters;
+global using Todo.Api.Infrastuctures.Services;
+global using Todo.Api.Services;
+global using Todo.Api.Infrastuctures.Excepetions;

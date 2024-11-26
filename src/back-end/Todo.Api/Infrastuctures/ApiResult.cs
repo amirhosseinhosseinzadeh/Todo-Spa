@@ -2,12 +2,13 @@
 
 public record ApiResult
 {
+    //TODO: complete issue related to deserializing of exception
     public static ApiResult InitilizeFailureApiResult(Exception ex)
     {
         return new ApiResult()
         {
             Result = null,
-            Error = ex,
+            Error = ex.Message,
             Success = false
         };
     }
@@ -31,5 +32,5 @@ public record ApiResult
 
     public bool Success { get; set; }
 
-    public Exception Error { get; set; }
+    public string Error { get; set; }
 }
