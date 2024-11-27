@@ -66,4 +66,14 @@ public class ToDoService : IToDoService
     {
         await _dbContext.SaveChangesAsync(cancellationToken: cancellationToken);
     }
+
+    public async Task<ApplicationDto> Update(ApplicationDto applicationDto, CancellationToken cancellationToken)
+    {
+        var todoApplication = await _applicationDbSet.FindAsync(applicationDto.Id);
+        EntityNotFoundException.ThrowIfNull(todoApplication);
+        var entity = _mapper.Map<ApplicationDto, Application>(applicationDto, todoApplication);
+        entity = _applicationDbSet.Update(entity).Entity;
+        await SaveChangesAsync(cancellationToken);
+        return _mapper.Map<Application, ApplicationDto>(entity);
+    }
 }

@@ -8,7 +8,6 @@
                 <th>Announce date</th>
                 <th>Active</th>
                 <th>Actions</th>
-                <th>Actions</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-application>
@@ -27,6 +26,7 @@
                 <td>
                     <div class="table-button-container">
                         <p-button
+                            (onClick)="attemptToUpdate()"
                             label="Edit"
                             severity="warning"
                             icon="pi pi-spin pi-cog"
@@ -35,7 +35,9 @@
                     </div>
                     <div class="table-button-container">
                         <p-button
+                            (onClick)="attemptToDelete($event)"
                             label="Delete"
+                            commit ='appliation.id'
                             severity="danger"
                             icon="pi pi-trash"
                             iconPos="right"
@@ -44,6 +46,7 @@
                     <div class="table-button-container">
                         @if(application.isActive){
                         <p-button
+                            (onClick)="attemptToToggleStatus()"
                             label="DeActive"
                             severity="help"
                             icon="pi pi-times"
@@ -51,6 +54,7 @@
                         />
                         } @else {
                         <p-button
+                            (onClick)="attemptToToggleStatus()"
                             label="Active"
                             severity="success"
                             icon="pi pi-check"

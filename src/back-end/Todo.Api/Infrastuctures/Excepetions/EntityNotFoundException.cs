@@ -1,4 +1,6 @@
-﻿namespace Todo.Api.Infrastuctures.Excepetions;
+﻿using Todo.Api.Entities.Base;
+
+namespace Todo.Api.Infrastuctures.Excepetions;
 
 public class EntityNotFoundException : Exception
 {
@@ -14,7 +16,8 @@ public class EntityNotFoundException : Exception
     {
         if (source is not { })
         {
-            throw new EntityNotFoundException("Entity not found!");
+            var typeName = typeof(TSource).Name;
+            throw new EntityNotFoundException($"Entity not found! [type]={typeName}");
         }
     }
 
@@ -22,7 +25,7 @@ public class EntityNotFoundException : Exception
     {
         if (source is not { })
         {
-            throw new EntityNotFoundException("Entity not found!");
+            throw new EntityNotFoundException(message);
         }
     }
 }

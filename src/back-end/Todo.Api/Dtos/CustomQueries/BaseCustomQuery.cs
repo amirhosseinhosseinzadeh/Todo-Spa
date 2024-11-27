@@ -1,7 +1,7 @@
 namespace Todo.Api.Dtos.Customqueires;
 
 public class BaseCustomQuery<TQuerModel> : BaseCustomQuery
-{ }
+{  }
 
 public class BaseCustomQuery
 {

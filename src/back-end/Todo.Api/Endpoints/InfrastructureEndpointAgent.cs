@@ -14,7 +14,7 @@ public class InfrastructureEndpointAgent : EndpointAgent
         })
         .AddEndpointFilter<MinimalApiResultFilter>();
 
-        app.MapGet(GetFullPattern("dockertest"), () =>
+        app.MapGet("dockertest", () =>
         {
             return new
             {

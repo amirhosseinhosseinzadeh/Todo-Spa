@@ -10,17 +10,17 @@ public class TodoApplicationEndpointAgent : EndpointAgent
     {
         app.MapPost(GetFullPattern("Getlist"),
             async ([FromBody] BaseCustomQuery inputQury, [FromServices] IMediator mediator, CancellationToken cancelationToken) =>
-            {
-                return await mediator.Send(new GetApplicationListRequest(inputQury), cancelationToken);
-            })
-        .AddEndpointFilter<MinimalApiResultFilter>();
+        {
+            return await mediator.Send(new GetApplicationListRequest(inputQury), cancelationToken);
+        })
+            .AddEndpointFilter<MinimalApiResultFilter>();
 
         app.MapPost(GetFullPattern("Add"),
             async ([FromBody] ApplicationDto applicationDto, [FromServices] IMediator mediator, CancellationToken cancelationToken) =>
-            {
-                return await mediator.Send(new CreateApplicationRequest(applicationDto), cancelationToken);
-            })
-        .AddEndpointFilter<MinimalApiResultFilter>();
+        {
+            return await mediator.Send(new CreateApplicationRequest(applicationDto), cancelationToken);
+        })
+            .AddEndpointFilter<MinimalApiResultFilter>();
 
         app.MapGet(GetFullPattern("GetById"),
             async ([AsParameters] GetTodoApplicationByIdQuery query, [FromServices] IMediator mediator, CancellationToken cancellationToken) =>
@@ -39,6 +39,13 @@ public class TodoApplicationEndpointAgent : EndpointAgent
         app.MapDelete(GetFullPattern("Delete"), async ([AsParameters] GetTodoApplicationByIdQuery query, [FromServices] IMediator mediator) =>
         {
             await mediator.Send(new DeleteApplicationRequest(query.TodoApplicationId));
+        })
+            .AddEndpointFilter<MinimalApiResultFilter>();
+
+        app.MapPut(GetFullPattern("Update"),
+            async ([FromBody] ApplicationDto applicationDto, [FromServices] IMediator mediator, CancellationToken cancellationToken) =>
+        {
+            return await mediator.Send(new UpdateTodoApplicationRequest(applicationDto), cancellationToken);
         })
             .AddEndpointFilter<MinimalApiResultFilter>();
     }

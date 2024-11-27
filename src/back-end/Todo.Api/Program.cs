@@ -5,6 +5,7 @@ using Todo.Api.Infrastuctures.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
@@ -15,16 +16,15 @@ builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 builder.Services.AddTransient<IActionResultWrapperFactory, ActionRestltWrapperFactory>();
 builder.Services.AddDbContext<DbContext,ToDoDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("ToDoDbContext")));
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+}
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 app.UseHttpsRedirection();
 app.UseCors(x => x

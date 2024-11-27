@@ -1,6 +1,10 @@
-@Todo.Api_HostAddress = http://localhost:5134
+@Todo.Api_HostAddress = https://localhost:60917/
 
 GET {{Todo.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
+
+GET {{Todo.Api_HostAddress}}/api/todoapplication/GetList?skip=0&size=10 HTTP/1.1
+
+GET http://localhost:60917/dockertest
 ###

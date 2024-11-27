@@ -11,4 +11,6 @@ public interface IToDoService
     Task ToggleApplicationStatus(int applicationId, CancellationToken cancellationToken = default);
 
     Task DeleteById(int applicationId, CancellationToken cancellationToken = default);
+
+    Task<ApplicationDto> Update(ApplicationDto applicationDto, CancellationToken cancellationToken);
 }
