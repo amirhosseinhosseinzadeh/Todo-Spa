@@ -1,25 +1,68 @@
 <div class="table-container card">
-    @if (applications && applications.length > 0) {
-    <p-table [value]="applications">
+    @if (applicationList && applicationList.length > 0) {
+    <p-table [value]="applicationList">
         <ng-template pTemplate="header">
             <tr>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Announce date</th>
                 <th>Active</th>
+                <th>Actions</th>
+                <th>Actions</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-application>
             <tr>
-                <td>{{application.title}}</td>
-                <td>{{application.description}}</td>
+                <td>{{ application.title }}</td>
+                <td>{{ application.description }}</td>
+                <td>{{ application.anounceDate }}</td>
                 <td>
-                    <p-checkbox [(ngModel)]="application.isActive" [binary]="true" inputId="binary" readonly="true" />
+                    <p-checkbox
+                        [(ngModel)]="application.isActive"
+                        [binary]="true"
+                        inputId="binary"
+                        readonly="true"
+                    />
+                </td>
+                <td>
+                    <div class="table-button-container">
+                        <p-button
+                            label="Edit"
+                            severity="warning"
+                            icon="pi pi-spin pi-cog"
+                            iconPos="right"
+                        />
+                    </div>
+                    <div class="table-button-container">
+                        <p-button
+                            label="Delete"
+                            severity="danger"
+                            icon="pi pi-trash"
+                            iconPos="right"
+                        />
+                    </div>
+                    <div class="table-button-container">
+                        @if(application.isActive){
+                        <p-button
+                            label="DeActive"
+                            severity="help"
+                            icon="pi pi-times"
+                            iconPos="right"
+                        />
+                        } @else {
+                        <p-button
+                            label="Active"
+                            severity="success"
+                            icon="pi pi-check"
+                            iconPos="right"
+                        />
+                        }
+                    </div>
                 </td>
             </tr>
         </ng-template>
     </p-table>
-    }
-    @else {
+    } @else {
     <p>loading..</p>
     }
 </div>

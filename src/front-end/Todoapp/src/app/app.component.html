@@ -1,21 +1,19 @@
-
 <div id="header-container">
-<p>sss</p>
+    <p>sss</p>
 </div>
-<div body></div>
+<div></div>
 
 <div>
-  <!-- <p>
+    <!-- <p>
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, ullam ea nesciunt aliquid cumque modi rerum aperiam aut distinctio, quis eius iure nisi. Quaerat, accusamus quo. Ipsa, ipsam nesciunt reprehenderit sed officiis fugiat, recusandae obcaecati totam voluptatibus explicabo enim? Amet est quia sunt enim itaque unde suscipit ex doloribus eligendi? Eum vel exercitationem quas ullam nesciunt dignissimos cum unde accusamus voluptas et, in modi itaque blanditiis, aspernatur placeat, sed possimus voluptates! Odio eveniet, quisquam repudiandae, fugit maiores hic veritatis tenetur laudantium sunt est expedita consequatur, exercitationem quis explicabo rerum excepturi corrupti placeat pariatur illum nobis odit ducimus facere! Consectetur obcaecati deleniti iusto veritatis reiciendis vitae quaerat cupiditate animi at rerum, dolor quas, debitis repellat magnam sunt modi quod fuga. Ad dolorem unde nemo dicta porro fuga magni, quidem hic optio veritatis iste ipsum iure laborum ea repellendus corrupti natus doloribus numquam maiores sunt ut et accusamus in. Perspiciatis quas nemo modi dignissimos. Ut iste pariatur architecto? Assumenda, magnam eos? Culpa vel quas quia enim quod amet id, doloribus provident illum adipisci alias reiciendis eligendi laborum voluptas doloremque atque nisi, dolore commodi neque. Recusandae quaerat odio animi. Suscipit tenetur eveniet doloribus aperiam possimus quae iure, similique tempora, quisquam officiis beatae aliquam sunt corporis alias fuga quaerat nostrum. Sint mollitia dolorum minima assumenda nesciunt error tenetur non quasi provident, consequatur officiis velit distinctio itaque dolores deserunt sequi nisi esse, voluptates aliquid quas inventore quae ex? Blanditiis, fugit exercitationem voluptatum, provident nulla nostrum harum sunt iure ea id aut distinctio ipsa nemo, dolorem et magni iste ex. Laboriosam qui veritatis illo est, earum quis. Sapiente, modi ipsam assumenda at magni itaque, omnis voluptas aliquid aliquam, quibusdam corrupti. Dolores iure quaerat aliquid non vero quasi odit id sint ad delectus doloribus, cumque tenetur repellendus nostrum ipsum accusamus nihil! Labore provident quia iusto esse praesentium ab facere odio, porro necessitatibus temporibus laudantium incidunt voluptatem sunt illum? Earum sequi, modi recusandae officiis nobis quidem nostrum veritatis beatae velit voluptates totam quaerat, repellendus eos officia porro soluta ullam dolorum, sapiente error. Cumque corrupti voluptate ex hic atque facilis veniam accusantium quisquam soluta quas a fugiat debitis, reprehenderit aut quis ipsa impedit vel provident sunt. Aliquid voluptatum perferendis sint voluptatibus nobis recusandae est officiis nulla quisquam fugit unde laborum enim vel, expedita neque vero optio consequatur laboriosam eius repudiandae quae modi asperiores! Corrupti culpa soluta perspiciatis est adipisci eveniet voluptatum veritatis id quos deleniti fuga autem minima reiciendis quis recusandae quod, labore, odio libero. Aut quisquam mollitia, laborum ratione et minima quos sapiente praesentium illo quod neque rem modi facere maiores, harum molestias? Aliquam possimus, harum asperiores corrupti, culpa velit, esse ipsa pariatur quisquam maxime praesentium soluta. Modi amet dignissimos quo ad culpa vero molestiae. Eius illum ut quasi temporibus iste delectus odit voluptatibus illo qui optio, voluptates, modi eum, saepe ipsam eaque quo libero. Eum pariatur deserunt, magnam error a quam qui enim nostrum, culpa necessitatibus distinctio asperiores deleniti, nulla rem esse sequi soluta eius. Maxime fugiat dolorem iste labore nulla molestiae doloribus. Soluta, commodi tempore. Molestias.
   </p> -->
-
-
-<todo-applications-table>
-</todo-applications-table>
-
+    @if(applications){
+        <todo-applications-table [applicationList]="applications">
+        </todo-applications-table>
+    }
 </div>
 
 <div class="new-button-container col-md-0 col-sm-0">
-  <new-button></new-button>
+    <new-button (addNewItem)="addTodoApplication($event)"></new-button>
 </div>
 <router-outlet />

@@ -1,4 +1,4 @@
-export class ToDoApplication {
+export class TodoApplication {
     anounceDate?: Date
     description?: Date
     id?: number

@@ -1,5 +1,5 @@
 <p-dialog
-    header="Edit Profile"
+    header="Add new Item"
     [modal]="true"
     [(visible)]="visible"
     [style]="{ width: '25rem' }"
@@ -49,7 +49,7 @@
             severity="secondary"
             (onClick)="visible = false"
         />
-        <p-button label="Save" (onClick)="visible = false" />
+        <p-button label="Save" (onClick)="addItem()" />
     </div>
 </p-dialog>
 

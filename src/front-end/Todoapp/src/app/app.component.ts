@@ -1,9 +1,11 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ToDoApplication } from './models/todoApplication';
+import { TodoApplication } from './models/todoApplication';
 import { NewButtonComponent } from './Appearance/new-button/new-button.component';
 import { ButtonModule } from 'primeng/button'
 import { ApplicationsTableComponent } from './applications-table/applications-table.component'
+import { TodoApplicationService } from './services/todo-application.service';
+import { ApiQuery } from './models/ApiQuery';
 
 @Component({
     selector: 'app-root',
@@ -16,17 +18,31 @@ import { ApplicationsTableComponent } from './applications-table/applications-ta
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })
-export class AppComponent implements DoCheck, OnInit {
+export class AppComponent implements AfterViewInit {
     title = 'Todoapp'
-    applications: ToDoApplication[] = []
-    applicationJson?: string
+    applications?: TodoApplication[]
+    apiQuery: ApiQuery = new ApiQuery()
+    constructor(private todoService: TodoApplicationService) { }
 
-    constructor() {
+    ngAfterViewInit(): void {
+        this.todoService.getApplications(this.apiQuery)
+            .subscribe(x => {
+                if (x?.success && x?.result) {
+                    console.log(x.result)
+                    this.applications = x.result
+                }
+            })
+    }
+    addTodoApplication(todoApplication: any) {
+        this.todoService.addApplication(todoApplication)
+            .subscribe(x => {
+                if (x.success && x.result) {
+                    this.applications?.push(x.result)
+                }
+                else {
+                    alert('u suck :)')
+                }
+            });
     }
 
-    ngDoCheck(): void {
-    }
-    ngOnInit(): void {
-
-    }
 }

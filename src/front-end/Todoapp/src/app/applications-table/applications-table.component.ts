@@ -1,11 +1,9 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { TableModule } from 'primeng/table'
-import { ToDoApplication } from '../models/todoApplication';
-import { TodoApplicationService } from "../services/todo-application.service"
-import { ApiQuery } from '../models/ApiQuery';
 import { CheckboxModule } from 'primeng/checkbox';
+import { Button } from 'primeng/button';
 
 @Component({
     selector: 'todo-applications-table',
@@ -14,22 +12,14 @@ import { CheckboxModule } from 'primeng/checkbox';
         TableModule,
         CheckboxModule,
         CommonModule,
-        FormsModule
+        FormsModule,
+        Button
     ],
     templateUrl: './applications-table.component.html',
     styleUrl: './applications-table.component.css'
 })
-export class ApplicationsTableComponent implements AfterViewInit {
-    applications: ToDoApplication[] = []
-    apiQuery: ApiQuery = new ApiQuery()
-    test: boolean = true
-    constructor(private todoService: TodoApplicationService) { }
+export class ApplicationsTableComponent {
+    @Input() applicationList: any
 
-
-    ngAfterViewInit(): void {
-        this.todoService.GetApplications(this.apiQuery)
-            .subscribe(x => {
-                this.applications = x
-            })
-    }
+    constructor() { }
 }

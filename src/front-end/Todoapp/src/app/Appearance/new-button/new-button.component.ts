@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button'
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { ToDoApplication } from '../../models/todoApplication';
+import { TodoApplication } from '../../models/todoApplication';
 import { CheckboxModule } from 'primeng/checkbox';
-import { TodoApplicationService } from '../../services/todo-application.service';
 
 @Component({
     selector: 'new-button',
@@ -25,18 +24,22 @@ import { TodoApplicationService } from '../../services/todo-application.service'
 
 export class NewButtonComponent {
     visible: boolean = false
-    todo: ToDoApplication = {}
+    todo: TodoApplication = {}
+    @Output() addNewItem = new EventEmitter();
 
-    constructor(private todoService: TodoApplicationService) { }
+    constructor() { }
+
+    addItem() {
+        this.visible = false
+        this.addNewItem.next(this.todo);
+    }
 
     loadDialog() {
         this.visible = true
+        this.clearModel()
     }
 
-    addTodoApplication() {
-        let todoAdd = this.todoService.addApplication(this.todo)
-            .subscribe(x => {
-                
-            })
+    clearModel() {
+        this.todo = new TodoApplication();
     }
 }

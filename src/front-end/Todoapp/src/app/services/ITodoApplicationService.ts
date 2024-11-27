@@ -1,8 +1,9 @@
 import { Observable } from "rxjs";
 import { ApiQuery } from "../models/ApiQuery";
-import { ToDoApplication } from "../models/todoApplication";
+import { TodoApplication } from "../models/todoApplication";
+import { ApiResult } from "../models/ApiResult";
 
 export interface ITodoApplicationService {
-    getApplications(query: ApiQuery): Observable<ToDoApplication[]>;
-    addApplication(application:ToDoApplication): Observable<ToDoApplication>;
+    getApplications(query: ApiQuery): Observable<ApiResult<TodoApplication[]>>;
+    addApplication(application: TodoApplication): Observable<ApiResult<TodoApplication>>;
 }
