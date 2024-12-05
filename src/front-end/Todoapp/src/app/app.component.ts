@@ -20,7 +20,7 @@ import { ApiQuery } from './models/ApiQuery';
 })
 export class AppComponent implements AfterViewInit {
     title = 'Todoapp'
-    applications?: TodoApplication[]
+    applications: TodoApplication[] = []
     apiQuery: ApiQuery = new ApiQuery()
     constructor(private todoService: TodoApplicationService) { }
 
@@ -28,11 +28,11 @@ export class AppComponent implements AfterViewInit {
         this.todoService.getApplications(this.apiQuery)
             .subscribe(x => {
                 if (x?.success && x?.result) {
-                    console.log(x.result)
                     this.applications = x.result
                 }
             })
     }
+
     addTodoApplication(todoApplication: any) {
         this.todoService.addApplication(todoApplication)
             .subscribe(x => {
@@ -40,9 +40,51 @@ export class AppComponent implements AfterViewInit {
                     this.applications?.push(x.result)
                 }
                 else {
-                    alert('u suck :)')
+                    alert(x.error)
                 }
             });
     }
 
+    delete(todoApplicationId: number): void {
+        this.todoService.deleteApplication(todoApplicationId)
+            .subscribe(x => {
+                if (x.success) {
+                    let removedItemIndex = this.applications?.findIndex(x => x.id === todoApplicationId)
+                    if (removedItemIndex)
+                        this.applications?.splice(removedItemIndex, 1)
+                }
+                else {
+                    alert(x.error)
+                }
+            });
+    }
+
+    toggleStatus(todoApplication: TodoApplication): void {
+        let itemIndex = this.applications.indexOf(todoApplication)
+        this.todoService.toggleApplicationStatus(todoApplication?.id ?? 0)
+            .subscribe(x => {
+                if (x.success) {
+                    todoApplication.isActive = !todoApplication.isActive
+                    this.applications.splice(itemIndex, 1, todoApplication)
+                }
+                else {
+                    alert(x.error)
+                }
+            })
+    }
+
+    update(todoApplication: TodoApplication): void {
+        this.todoService.editApplication(todoApplication)
+            .subscribe(x => {
+                if (x.success) {
+                    let index = this.applications.indexOf(
+                        this.applications.find(x => x?.id ?? 0 === todoApplication?.id ?? 0) ?? new TodoApplication()
+                    )
+                    this.applications.splice(index - 1, 1, x.result)
+                }
+                else {
+                    alert(x.error)
+                }
+            })
+    }
 }

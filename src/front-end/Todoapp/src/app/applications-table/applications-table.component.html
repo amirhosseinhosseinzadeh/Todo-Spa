@@ -16,50 +16,25 @@
                 <td>{{ application.description }}</td>
                 <td>{{ application.anounceDate }}</td>
                 <td>
-                    <p-checkbox
-                        [(ngModel)]="application.isActive"
-                        [binary]="true"
-                        inputId="binary"
-                        readonly="true"
-                    />
+                    <p-checkbox [(ngModel)]="application.isActive" [binary]="true" inputId="binary" readonly="true" />
                 </td>
                 <td>
                     <div class="table-button-container">
-                        <p-button
-                            (onClick)="attemptToUpdate()"
-                            label="Edit"
-                            severity="warning"
-                            icon="pi pi-spin pi-cog"
-                            iconPos="right"
-                        />
+                        <p-button (onClick)="showEditDialog($event)" label="Edit" severity="warning"
+                            icon="pi pi-spin pi-cog" iconPos="right" />
                     </div>
                     <div class="table-button-container">
-                        <p-button
-                            (onClick)="attemptToDelete($event)"
-                            label="Delete"
-                            commit ='appliation.id'
-                            severity="danger"
-                            icon="pi pi-trash"
-                            iconPos="right"
-                        />
+                        <p-button (onClick)="attemptToDelete($event)" [ariaLabel]="application.id"
+                            [accessKey]="application.id" label="Delete" commit='appliation.id' severity="danger"
+                            icon="pi pi-trash" iconPos="right" />
                     </div>
                     <div class="table-button-container">
                         @if(application.isActive){
-                        <p-button
-                            (onClick)="attemptToToggleStatus()"
-                            label="DeActive"
-                            severity="help"
-                            icon="pi pi-times"
-                            iconPos="right"
-                        />
+                        <p-button (onClick)="attemptToToggleStatus($event)" label="DeActive" severity="help"
+                            icon="pi pi-times" iconPos="right" />
                         } @else {
-                        <p-button
-                            (onClick)="attemptToToggleStatus()"
-                            label="Active"
-                            severity="success"
-                            icon="pi pi-check"
-                            iconPos="right"
-                        />
+                        <p-button (onClick)="attemptToToggleStatus($event)" label="Active" severity="success"
+                            icon="pi pi-check" iconPos="right" />
                         }
                     </div>
                 </td>
@@ -70,3 +45,31 @@
     <p>loading..</p>
     }
 </div>
+
+
+<p-dialog header="Add new Item" [modal]="true" [(visible)]="editDialogVisible" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-5">Update your information.</span>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="Title" class="font-semibold w-6rem">Title</label>
+        <input [(ngModel)]="selectedApplication.title" pInputText id="Title" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="Description" class="font-semibold w-6rem">Description</label>
+        <input [(ngModel)]="selectedApplication.description" pInputText id="Description" class="flex-auto"
+            autocomplete="off" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="IsActive" class="font-semibold w-6rem">IsActive</label>
+        <p-checkbox [(ngModel)]="selectedApplication.isActive" [binary]="true" inputId="binary" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="email" class="font-semibold w-6rem">Date</label>
+        <p-calendar [(ngModel)]="selectedApplication.anounceDate"
+            [showIcon]="true" inputId="buttondisplay" [showOnFocus]="false" dateFormat="yy/MM/dd" [showTime]="true"
+            appendTo="body" />
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (onClick)="editDialogVisible = false" />
+        <p-button label="Save" (onClick)="attemptToUpdate()" />
+    </div>
+</p-dialog>

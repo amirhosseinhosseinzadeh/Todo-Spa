@@ -14,7 +14,7 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IToDoService, ToDoService>();
 builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 builder.Services.AddTransient<IActionResultWrapperFactory, ActionRestltWrapperFactory>();
-builder.Services.AddDbContext<DbContext,ToDoDbContext>(opt =>
+builder.Services.AddDbContext<DbContext, ToDoDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("ToDoDbContext")));
 
 var app = builder.Build();
@@ -23,8 +23,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
 }
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseCors(x => x
