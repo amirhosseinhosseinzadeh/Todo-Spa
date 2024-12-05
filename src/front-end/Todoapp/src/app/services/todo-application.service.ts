@@ -14,6 +14,7 @@ import { TodoApplication } from '../models/todoApplication';
 export class TodoApplicationService implements ITodoApplicationService {
 
     constructor(private client: HttpClient) { }
+
     editApplication(application: TodoApplication): Observable<ApiResult<TodoApplication>> {
         const apiFullAddress = environment.host + 'api/TodoApplication/Update'
         let header = {
